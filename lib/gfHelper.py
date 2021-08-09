@@ -1,6 +1,10 @@
+import math
+
 import pandas as pd
+import matplotlib.pyplot as plt
 import re
 import numpy as np
+from scipy import stats
 
 
 def read_text(path, cols=None):
@@ -98,6 +102,71 @@ def get_shortforms_of_columns(columns, dictionary):
 def export_to_excel(data, path):
     data.to_excel(path)
 
+
+def plot_data_hist(x, bins=10, show_cumulated=False, title=''):
+    fig = plt.figure(figsize=(15, 8))
+    ax = plt.axes()
+    plt.ylabel("normierte Häufigkeit [-]")
+    weights = np.ones_like(x) / float(len(x))
+    values, base, _ = plt.hist(x, weights=weights, bins=bins, alpha=0.5, label="Histogram", edgecolor='r')
+    print(base)
+    if show_cumulated:
+        ax_bis = ax.twinx()
+        values = np.append(values, 0)
+        ax_bis.plot(base, np.cumsum(values) / np.cumsum(values)[-1], marker='o', linestyle='-',
+                    markersize=1, label="Cumulative Histogram")
+
+        plt.ylabel("Summenhäufigkeit [-]")
+        ax_bis.legend()
+
+    ax.set_xlabel('Kornklassierungen [µm]')
+    plt.title(title)
+
+    ax.legend()
+    plt.show()
+    return
+
+
+    fig = plt.figure()
+    ax = plt.axes()
+
+    values, base, _ = plt.hist(x, bins=bins)
+
+    plt.ylabel("Proportion")
+
+    if show_cumulated:
+        ax_bis = ax.twinx()
+        values = np.append(values, 0)
+        ax_bis.plot(base, np.cumsum(values) / np.cumsum(values)[-1],
+                    color='darkorange', marker='o', linestyle='-',
+                    markersize=1, label="Cumulative Histogram")
+
+    if title != '':
+        plt.title(title)
+
+    plt.xlabel('Korngröße')
+    plt.ylabel("Proportion")
+    plt.title(title)
+    ax_bis.legend()
+    ax.legend()
+    plt.show()
+
+
+def get_number_of_classes(data, mode):
+    n = len(data)
+    if mode == 'sr':
+        classes = int(math.sqrt(n))
+    elif mode == 'rice':
+        classes = int(2*(n**(1/3)))
+    elif mode == 'sturges':
+        classes = int(math.log(n, 2) + 1)
+    elif mode == 'fd':
+        iqr = stats.iqr(data, interpolation = 'midpoint')
+        classes = int(2*iqr/(n**(1/3)))
+    else:
+        raise NotImplementedError
+
+    return classes
 
 
 
