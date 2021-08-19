@@ -109,7 +109,7 @@ def plot_data_hist(x, bins=10, show_cumulated=False, title=''):
     plt.ylabel("normierte Häufigkeit [-]")
     weights = np.ones_like(x) / float(len(x))
     values, base, _ = plt.hist(x, weights=weights, bins=bins, alpha=0.5, label="Histogram", edgecolor='r')
-    print(base)
+    # print(base)
     if show_cumulated:
         ax_bis = ax.twinx()
         values = np.append(values, 0)
@@ -150,6 +150,22 @@ def plot_data_hist(x, bins=10, show_cumulated=False, title=''):
     ax_bis.legend()
     ax.legend()
     plt.show()
+
+
+def get_classified_data(x, n_classes=5):
+    sorted_data = np.sort(x)
+
+    grenzen = [(sorted_data[-1] / n_classes) * i for i in range(1, n_classes+1)]
+
+    idx_array = [np.where(sorted_data < g)[0][-1] for g in grenzen]
+
+    ret_val = idx_array
+
+    return ret_val
+
+
+def plot_data_violin(x, classes):
+    return
 
 
 def get_number_of_classes(data, mode):

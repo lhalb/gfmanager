@@ -113,7 +113,6 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
 
     def get_class_mode(self):
         txt = str(self.cb_classification.currentText())
-        print(txt)
         if txt == 'Freedman–Diaconis':
             mode = 'fd'
         elif txt == 'Rice':
@@ -130,20 +129,33 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
 
     def plot_data(self):
         data = self.data.df
+
+        if data is not None:
+            self.un_highlight(self.txt_fopen)
+            pass
+        else:
+            self.show_error_box('Es wurden keine Daten angegeben')
+            self.highlight_field(self.txt_fopen)
+            return
+
         inner_grains = data[data['edge'] == 0]
+        calc_data = inner_grains['dia']
+
+        class_mode = self.get_class_mode()
+
+        if not class_mode:
+            return
+
+        classes = gfh.get_number_of_classes(calc_data, mode=class_mode)
+        print(classes)
 
         if self.gb_histogram.isEnabled() and self.rb_hist.isChecked():
-            class_mode = self.get_class_mode()
-            if not class_mode:
-                return
 
-            calc_data = inner_grains['dia']
-
-
-            classes = gfh.get_number_of_classes(calc_data, mode=class_mode)
-            gfh.plot_data_hist(calc_data.values, bins=classes, show_cumulated=True)
+            gfh.plot_data_hist(calc_data.values, bins=classes, show_cumulated=self.cb_cumulated.isChecked())
 
         elif self.gb_violine.isEnabled() and self.rb_vio.isChecked():
+
+            print(gfh.get_classified_data(calc_data, classes))
             self.show_info_box('Jetzt würde ich einen Violinenplot machen')
 
         else:

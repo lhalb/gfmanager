@@ -24,6 +24,7 @@ class DataBase:
             'Maximmum Feret diameter': 'maxFeret',
             'Minimum Feret diameter': 'minFeret'
         }
+        self.outdata = None
 
     def write_to_df(self, data):
         self.df = data
@@ -42,3 +43,9 @@ class DataBase:
 
     def clear_outpath(self):
         self.outpath = None
+
+    def write_to_outdata(self, data):
+        self.outdata = data
+
+    def clear_outdata(self):
+        self.outdata = None
