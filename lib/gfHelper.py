@@ -1,5 +1,6 @@
 import math
 
+import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
 import re
@@ -84,15 +85,17 @@ def get_shortforms_of_columns(columns, dictionary):
             if k.find(c) != -1:
                 col_list.append(dictionary[k])
 
-            elif 'degrees' in c and 'degrees' in k:
-                unit = c.split('|')[1].strip()
-                col_list.append(f'{dictionary[k]}-{unit}')
+            elif 'Average orientation (phi1, PHI, phi2)' in c and \
+                    'Average orientation (phi1, PHI, phi2)' in k:
+                if 'degrees' in c and 'degrees' in k:
+                    unit = c.split('|')[1].strip()
+                    col_list.append(f'{dictionary[k]}-{unit}')
 
-            elif 'radians' in c and 'radians' in k:
-                unit = c.split('|')[1].strip()
-                col_list.append(f'{dictionary[k]}-{unit}')
+                if 'radians' in c and 'radians' in k:
+                    unit = c.split('|')[1].strip()
+                    col_list.append(f'{dictionary[k]}-{unit}')
 
-            elif 'Position' in c and 'Position' in k:
+            elif 'Average Position' in c and 'Average Position' in k:
                 unit = c.split('|')[1].strip()
                 col_list.append(f'{dictionary[k]}-{unit}')
 
@@ -104,6 +107,11 @@ def export_to_excel(data, path):
 
 
 def plot_data_hist(x, bins=10, show_cumulated=False, title=''):
+    fig, ax = plt.subplots()
+    bar = sns.histplot(data=x, kde=show_cumulated, bins=bins)
+    bar.set_xlabel(x.name)
+    plt.show()
+    return
     fig = plt.figure(figsize=(15, 8))
     ax = plt.axes()
     plt.ylabel("normierte Häufigkeit [-]")
@@ -127,31 +135,6 @@ def plot_data_hist(x, bins=10, show_cumulated=False, title=''):
     return
 
 
-    fig = plt.figure()
-    ax = plt.axes()
-
-    values, base, _ = plt.hist(x, bins=bins)
-
-    plt.ylabel("Proportion")
-
-    if show_cumulated:
-        ax_bis = ax.twinx()
-        values = np.append(values, 0)
-        ax_bis.plot(base, np.cumsum(values) / np.cumsum(values)[-1],
-                    color='darkorange', marker='o', linestyle='-',
-                    markersize=1, label="Cumulative Histogram")
-
-    if title != '':
-        plt.title(title)
-
-    plt.xlabel('Korngröße')
-    plt.ylabel("Proportion")
-    plt.title(title)
-    ax_bis.legend()
-    ax.legend()
-    plt.show()
-
-
 def get_classified_data(x, n_classes=5):
     sorted_data = np.sort(x)
 
@@ -164,7 +147,11 @@ def get_classified_data(x, n_classes=5):
     return ret_val
 
 
-def plot_data_violin(x, classes):
+def plot_data_violin(data):
+    fig, ax = plt.subplots()
+    sns.violinplot(x=data, ax=ax)
+    plt.show()
+
     return
 
 

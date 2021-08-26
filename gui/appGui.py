@@ -147,16 +147,13 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             return
 
         classes = gfh.get_number_of_classes(calc_data, mode=class_mode)
-        print(classes)
 
         if self.gb_histogram.isEnabled() and self.rb_hist.isChecked():
 
-            gfh.plot_data_hist(calc_data.values, bins=classes, show_cumulated=self.cb_cumulated.isChecked())
+            gfh.plot_data_hist(calc_data, bins=classes, show_cumulated=self.cb_cumulated.isChecked())
 
         elif self.gb_violine.isEnabled() and self.rb_vio.isChecked():
-
-            print(gfh.get_classified_data(calc_data, classes))
-            self.show_info_box('Jetzt würde ich einen Violinenplot machen')
+            gfh.plot_data_violin(calc_data)
 
         else:
             self.show_info_box('Hier fehlte eine Zuordnung zum Plotmodus')

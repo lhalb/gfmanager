@@ -19,10 +19,12 @@ class DataBase:
             'Aspect ratio of ellipse fit to grain': 'aspect',
             'Length of major axis of ellipse fit to grain in microns': 'majEll',
             'Length of minor axis of ellipse fit to grain in microns': 'minEll',
+            'Orientation (relative to the horizontal) of major axis of ellipse fit to grain in degrees': 'relOr',
             'Grain ellipticity': 'ellipt',
             'Grain circularity': 'circul',
             'Maximmum Feret diameter': 'maxFeret',
-            'Minimum Feret diameter': 'minFeret'
+            'Minimum Feret diameter': 'minFeret',
+            'Average orientation spread in grain (average misorientation of all point pairs)': 'avOrSpread'
         }
         self.outdata = None
 
