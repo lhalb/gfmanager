@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\gui\gui.ui'
+# Form implementation generated from reading ui file '.\gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -135,6 +135,9 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_6)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.but_trim = QtWidgets.QPushButton(self.centralwidget)
+        self.but_trim.setObjectName("but_trim")
+        self.horizontalLayout_2.addWidget(self.but_trim)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
         self.but_plot = QtWidgets.QPushButton(self.centralwidget)
@@ -173,7 +176,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_4)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 463, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 463, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -214,6 +217,7 @@ class Ui_MainWindow(object):
         self.cb_quantile.setText(_translate("MainWindow", "zeige"))
         self.txt_quantile.setText(_translate("MainWindow", "25, 50, 75"))
         self.label_4.setText(_translate("MainWindow", "Quantile"))
+        self.but_trim.setText(_translate("MainWindow", "TRIM"))
         self.but_plot.setText(_translate("MainWindow", "PLOT"))
         self.label_2.setText(_translate("MainWindow", "Dest:"))
         self.but_fout.setText(_translate("MainWindow", "..."))

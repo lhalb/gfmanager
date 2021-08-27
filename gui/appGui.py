@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from gui import GUI
 from lib import gfDatabase as DB
 from lib import gfHelper as gfh
+from gui.trimGui import TrimDialog as TD
 
 
 class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
@@ -25,6 +26,7 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         self.but_fopen.clicked.connect(self.file_open)
         self.but_fout.clicked.connect(self.file_save)
         self.but_save_data.clicked.connect(self.export_data)
+        self.but_trim.clicked.connect(self.show_trim_window)
 
         # Aktivieren und Deaktivieren
         self.rb_vio.clicked.connect(self.set_visibility)
@@ -33,6 +35,11 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         # Aktionen
         self.actionOpen_File.triggered.connect(self.file_open)
         self.actionSave_File.triggered.connect(self.file_save)
+
+    def show_trim_window(self):
+        trim_dia = TD()
+        trim_dia.exec_()
+
 
     def get_short_cols(self, path, col_dict=None):
         if not self.test_path(path):
