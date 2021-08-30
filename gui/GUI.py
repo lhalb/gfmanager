@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\gui.ui'
+# Form implementation generated from reading ui file './gui/gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -40,6 +40,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.setContentsMargins(10, -1, -1, -1)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
+        self.label_5.setEnabled(False)
         font = QtGui.QFont()
         font.setPointSize(9)
         font.setBold(True)
@@ -48,6 +49,7 @@ class Ui_MainWindow(object):
         self.label_5.setObjectName("label_5")
         self.horizontalLayout_5.addWidget(self.label_5)
         self.cb_plotchoice = QtWidgets.QComboBox(self.centralwidget)
+        self.cb_plotchoice.setEnabled(False)
         self.cb_plotchoice.setAutoFillBackground(True)
         self.cb_plotchoice.setPlaceholderText("")
         self.cb_plotchoice.setFrame(True)
@@ -217,6 +219,7 @@ class Ui_MainWindow(object):
         self.cb_quantile.setText(_translate("MainWindow", "zeige"))
         self.txt_quantile.setText(_translate("MainWindow", "25, 50, 75"))
         self.label_4.setText(_translate("MainWindow", "Quantile"))
+        self.but_trim.setToolTip(_translate("MainWindow", "Öffnet den Dialog, um die Daten ggf. zu beschneiden"))
         self.but_trim.setText(_translate("MainWindow", "TRIM"))
         self.but_plot.setText(_translate("MainWindow", "PLOT"))
         self.label_2.setText(_translate("MainWindow", "Dest:"))

@@ -37,7 +37,18 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         self.actionSave_File.triggered.connect(self.file_save)
 
     def show_trim_window(self):
-        trim_dia = TD()
+        data = self.data.df
+
+        if data is not None:
+            self.un_highlight(self.txt_fopen)
+            pass
+        else:
+            self.show_error_box('Es wurden keine Daten angegeben')
+            self.highlight_field(self.txt_fopen)
+            return
+
+        calc_data = data[['area', 'dia', 'pos-x', 'pos-y', 'edge', 'ASTM']]
+        trim_dia = TD(calc_data)
         trim_dia.exec_()
 
 

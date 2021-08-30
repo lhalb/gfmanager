@@ -39,7 +39,6 @@ from matplotlib.figure import Figure
 class MplCanvas(Canvas):
     def __init__(self, parent=None):
         self.fig = Figure()
-        self.axes = self.fig.add_subplot(111)
         Canvas.__init__(self, self.fig)
         Canvas.setSizePolicy(self, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         Canvas.updateGeometry(self)
