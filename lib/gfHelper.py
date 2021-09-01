@@ -147,9 +147,9 @@ def get_classified_data(x, n_classes=5):
     return ret_val
 
 
-def plot_data_violin(data):
+def plot_data_violin(data, cut=0, bw=1.0):
     fig, ax = plt.subplots()
-    sns.violinplot(x=data, ax=ax)
+    sns.violinplot(x=data, ax=ax, cut=cut, bw=bw)
     plt.show()
 
     return

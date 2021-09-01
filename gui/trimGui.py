@@ -6,7 +6,6 @@ import seaborn as sns
 from gui import trimming as tri
 import matplotlib.image as mpimg
 from math import floor, ceil
-import numpy as np
 
 
 class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
@@ -15,7 +14,7 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
         self.setupUi(self)
 
         self.trim_data = data
-        self.cal_val = None
+        self.cal_val = 1
 
         # Fill Combo-Box
         additems = [i for i in data.columns if i not in ['pos-x', 'pos-y', 'edge']]

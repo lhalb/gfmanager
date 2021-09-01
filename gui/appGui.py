@@ -48,9 +48,20 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             return
 
         calc_data = data[['area', 'dia', 'pos-x', 'pos-y', 'edge', 'ASTM']]
-        trim_dia = TD(calc_data)
-        trim_dia.exec_()
-
+        td = TD(calc_data)
+        ret_val = td.exec_()
+        if ret_val:
+            curr_text = td.cb_cols.currentText()
+            exclude = td.cb_edgeGrains.isChecked()
+            thresh = td.sliderTRIM.value()
+            if exclude:
+                data = data[(data['edge'] == 0) | (data[curr_text] >= thresh)]
+            else:
+                data = data[data[curr_text] >= thresh]
+            self.data.write_to_df(data)
+            self.show_info_box('Daten erfolgreich bereinigt.')
+        else:
+            return
 
     def get_short_cols(self, path, col_dict=None):
         if not self.test_path(path):
@@ -99,6 +110,14 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             return
 
         self.data.write_to_df(data)
+
+        additems = [i for i in data.columns if i not in ['pos-x', 'pos-y', 'edge']]
+        self.cb_plotchoice.addItems(additems)
+
+        combo = self.cb_plotchoice
+        index = combo.findText('area', QtCore.Qt.MatchFixedString)
+        if index >= 0:
+            combo.setCurrentIndex(index)
 
         self.show_info_box('Daten erfolgreich geladen')
 
@@ -157,7 +176,9 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             return
 
         inner_grains = data[data['edge'] == 0]
-        calc_data = inner_grains['dia']
+
+        current_text = self.cb_plotchoice.currentText()
+        calc_data = inner_grains[current_text]
 
         class_mode = self.get_class_mode()
 
@@ -171,7 +192,12 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             gfh.plot_data_hist(calc_data, bins=classes, show_cumulated=self.cb_cumulated.isChecked())
 
         elif self.gb_violine.isEnabled() and self.rb_vio.isChecked():
-            gfh.plot_data_violin(calc_data)
+            if self.cb_cut_data.isChecked():
+                cut = 0
+            else:
+                cut = 2
+            kernel_size = float(self.txt_bw.text())
+            gfh.plot_data_violin(data=calc_data, cut=cut, bw=kernel_size)
 
         else:
             self.show_info_box('Hier fehlte eine Zuordnung zum Plotmodus')
