@@ -39,7 +39,7 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
         self.setup_triggers()
 
     def setup_triggers(self):
-        self.sliderTRIM.valueChanged.connect(self.update_data)
+        self.sliderTRIM_min.valueChanged.connect(self.update_data)
         self.but_openImage.clicked.connect(self.load_image)
         self.cb_cols.currentTextChanged.connect(self.update_element)
         self.cb_edgeGrains.clicked.connect(self.update_element)
@@ -73,7 +73,7 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
 
 
     def init_slider(self):
-        sli = self.sliderTRIM
+        sli = self.sliderTRIM_min
 
         curr_text = self.cb_cols.currentText()
         if self.cb_edgeGrains.isChecked():
@@ -88,14 +88,14 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
 
         sli.setValue(min_val)
 
-        self.lab_cut.setText(str(min_val))
+        self.lab_cut_min.setText(str(min_val))
 
     def update_vline(self):
-        act_val = self.sliderTRIM.value()
+        act_val = self.sliderTRIM_min.value()
         self.vline.set_xdata(act_val)
         self.plt_data.draw_idle()
 
-        self.lab_cut.setText(str(act_val))
+        self.lab_cut_min.setText(str(act_val))
 
     def load_image(self):
         fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Bilddatei laden',
@@ -127,7 +127,7 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
     def get_excluded_values(self):
         data = self.trim_data
 
-        thresh = self.sliderTRIM.value()
+        thresh = self.sliderTRIM_min.value()
         curr_text = self.cb_cols.currentText()
 
         if self.cb_edgeGrains.isChecked():

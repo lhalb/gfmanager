@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="img">
+    <file>icons/delete.png</file>
+    <file>icons/save.png</file>
+    <file>icons/image.png</file>
+    <file>icons/max.png</file>
+    <file>icons/min.png</file>
+    <file>icons/appicon.png</file>
+    <file>icons/chart.png</file>
+    <file>icons/export.png</file>
+    <file>icons/green_light.png</file>
+    <file>icons/load.png</file>
+    <file>icons/red_light.png</file>
+    <file>icons/trim.png</file>
+  </qresource>
+</RCC>

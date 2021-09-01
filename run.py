@@ -1,6 +1,7 @@
 import sys
 from PyQt5 import QtWidgets
-from gui import appGui as GUI
+# from gui import appGui as GUI
+from gui import minimalGUI as GUI
 
 
 def main():
