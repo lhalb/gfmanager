@@ -1,8 +1,6 @@
 import math
 
-import seaborn as sns
 import pandas as pd
-import matplotlib.pyplot as plt
 import re
 import numpy as np
 from scipy import stats
@@ -106,34 +104,6 @@ def export_to_excel(data, path):
     data.to_excel(path)
 
 
-def plot_data_hist(x, bins=10, show_cumulated=False, title=''):
-    fig, ax = plt.subplots()
-    bar = sns.histplot(data=x, kde=show_cumulated, bins=bins)
-    bar.set_xlabel(x.name)
-    plt.show()
-    return
-    fig = plt.figure(figsize=(15, 8))
-    ax = plt.axes()
-    plt.ylabel("normierte Häufigkeit [-]")
-    weights = np.ones_like(x) / float(len(x))
-    values, base, _ = plt.hist(x, weights=weights, bins=bins, alpha=0.5, label="Histogram", edgecolor='r')
-    # print(base)
-    if show_cumulated:
-        ax_bis = ax.twinx()
-        values = np.append(values, 0)
-        ax_bis.plot(base, np.cumsum(values) / np.cumsum(values)[-1], marker='o', linestyle='-',
-                    markersize=1, label="Cumulative Histogram")
-
-        plt.ylabel("Summenhäufigkeit [-]")
-        ax_bis.legend()
-
-    ax.set_xlabel('Kornklassierungen [µm]')
-    plt.title(title)
-
-    ax.legend()
-    plt.show()
-    return
-
 
 def get_classified_data(x, n_classes=5):
     sorted_data = np.sort(x)
@@ -145,14 +115,6 @@ def get_classified_data(x, n_classes=5):
     ret_val = idx_array
 
     return ret_val
-
-
-def plot_data_violin(data, cut=0, bw=1.0):
-    fig, ax = plt.subplots()
-    sns.violinplot(x=data, ax=ax, cut=cut, bw=bw)
-    plt.show()
-
-    return
 
 
 def get_number_of_classes(data, mode):

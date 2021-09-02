@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="img">
+    <file>icons/check_all.png</file>
+    <file>icons/check_none.png</file>
+    <file>icons/repeat.png</file>
     <file>icons/delete.png</file>
     <file>icons/save.png</file>
     <file>icons/image.png</file>

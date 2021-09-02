@@ -148,21 +148,7 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             if not answer:
                 return
 
-    def get_class_mode(self):
-        txt = str(self.cb_classification.currentText())
-        if txt == 'Freedman–Diaconis':
-            mode = 'fd'
-        elif txt == 'Rice':
-            mode = 'rice'
-        elif txt == 'Square-Root':
-            mode = 'sr'
-        elif txt == 'Sturges':
-            mode = 'sturges'
-        else:
-            self.show_error_box('Falscher Test ausgewählt')
-            return False
 
-        return mode
 
     def plot_data(self):
         data = self.data.df
@@ -265,48 +251,3 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             return
         self.proc_path(dest, path)
         self.statusBar().showMessage('Ordner erfolgreich geladen', 2000)
-
-    def show_msg_box(self, text='Dies ist eine Warnung.'):
-        msg = QMB()
-        msg.setWindowTitle("Warnung")
-        msg.setText(text)
-        msg.setIcon(QMB.Warning)
-        msg.setStandardButtons(QMB.Cancel | QMB.Ok)
-        msg.setDefaultButton(QMB.Ok)
-
-        returnvalue = msg.exec()
-        if returnvalue == QMB.Ok:
-            press = True
-        else:
-            press = False
-
-        return press
-
-    def set_visibility(self):
-        sender = self.sender()
-        if sender == self.rb_hist:
-            self.gb_violine.setEnabled(False)
-            self.gb_histogram.setEnabled(True)
-        if sender == self.rb_vio:
-            self.gb_violine.setEnabled(True)
-            self.gb_histogram.setEnabled(False)
-
-    def show_error_box(self, text='Fehler'):
-        msg = QMB()
-        msg.setWindowTitle("Hinweis")
-        msg.setText(text)
-        msg.setIcon(QMB.Critical)
-        msg.setStandardButtons(QMB.Ok)
-        msg.setDefaultButton(QMB.Ok)
-
-        msg.exec()
-
-    def show_info_box(self, text='Info'):
-        msg = QMB()
-        msg.setWindowTitle("Information")
-        msg.setText(text)
-        msg.setIcon(QMB.Information)
-        msg.setStandardButtons(QMB.Ok)
-        msg.setDefaultButton(QMB.Ok)
-
-        msg.exec()

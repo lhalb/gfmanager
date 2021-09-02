@@ -1,11 +1,11 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets
 from gui import mingui as GUI
 from lib import gfDatabase as DB
 from lib import gfHelper as gfh
 from gui.trimGui import TrimDialog as TD
+from gui.plotUI import PlotDialog as PD
+from gui.exportGUI import SaveDialog as SD
 from gui import boxes as BOX
-
-import icons_rc
 
 
 class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
@@ -15,10 +15,11 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
 
         self.setup_triggers()
         self.data = DB.DataBase()
+        self.class_option = ''
 
     def setup_triggers(self):
         # Buttons
-        # self.but_plot.clicked.connect(self.open_plot_dialog)
+        self.but_plot.clicked.connect(self.open_plot_dialog)
         self.but_fopen.clicked.connect(self.file_open)
         self.but_save_data.clicked.connect(self.open_export_dialog)
         self.but_trim.clicked.connect(self.open_trim_dialog)
@@ -26,6 +27,29 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         self.info_load.clicked.connect(self.get_data_info)
         
     def open_trim_dialog(self):
+        all_data = self.get_data()
+        pd = all_data[['area', 'dia', 'pos-x', 'pos-y', 'edge', 'ASTM']]
+        td = TD(pd)
+        ret_val = td.exec_()
+        if ret_val:
+            curr_text = td.cb_cols.currentText()
+            exclude = td.cb_edgeGrains.isChecked()
+            thresh_1 = td.sliderTRIM_min.value()
+            thresh_2 = td.sliderTRIM_max.value()
+
+            cond_1 = (all_data['edge'] == 0)
+            cond_2 = (all_data[curr_text] >= thresh_1) & (all_data[curr_text] <= thresh_2)
+
+            if exclude:
+                data = all_data[cond_1 & cond_2]
+            else:
+                data = all_data[cond_2]
+            self.data.write_to_df(data)
+            BOX.show_info_box('Daten erfolgreich bereinigt.')
+        else:
+            return
+
+    def get_data(self):
         data = self.data.df
 
         if data is not None:
@@ -34,22 +58,19 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             BOX.show_error_box('Es wurden keine Daten angegeben')
             return
 
-        calc_data = data[['area', 'dia', 'pos-x', 'pos-y', 'edge', 'ASTM']]
-        td = TD(calc_data)
-        ret_val = td.exec_()
+        return data
+
+    def open_plot_dialog(self):
+        all_data = self.get_data()
+        plot_data = all_data[['area', 'dia', 'pos-x', 'pos-y', 'edge', 'ASTM']]
+        pd = PD(plot_data)
+        ret_val = pd.exec_()
         if ret_val:
-            curr_text = td.cb_cols.currentText()
-            exclude = td.cb_edgeGrains.isChecked()
-            thresh = td.sliderTRIM.value()
-            if exclude:
-                data = data[(data['edge'] == 0) | (data[curr_text] >= thresh)]
-            else:
-                data = data[data[curr_text] >= thresh]
-            self.data.write_to_df(data)
-            BOX.show_info_box('Daten erfolgreich bereinigt.')
+            self.class_option = pd.cb_classification.currentText()
         else:
             return
-        
+
+
     def file_open(self):
         fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Wähle eine Quelldatei', filter='*.txt')[0]
         # Wenn Nutzer Dateipfadauswahl abbricht
@@ -97,14 +118,6 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             return
 
         self.data.write_to_df(data)
-
-        # additems = [i for i in data.columns if i not in ['pos-x', 'pos-y', 'edge']]
-        # self.cb_plotchoice.addItems(additems)
-        # 
-        # combo = self.cb_plotchoice
-        # index = combo.findText('area', QtCore.Qt.MatchFixedString)
-        # if index >= 0:
-        #     combo.setCurrentIndex(index)
 
         BOX.show_info_box('Daten erfolgreich geladen')
         self.check_data()
@@ -161,7 +174,8 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             col_dict = self.data.col_dict
         return gfh.get_shortforms_of_columns(coldata[1], col_dict)
 
-
     def open_export_dialog(self):
-        return
+        data = self.get_data()
+        sd = SD(data)
+        sd.exec_()
 
