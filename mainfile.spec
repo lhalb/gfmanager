@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['run.py'],
-             pathex=['D:\\gf_manager\\run.py'],
+             pathex=['F:\\PycharmProjects\\run.py'],
              binaries=[],
              datas=[],
              hiddenimports=['scipy.special.cython_special'],
@@ -21,7 +21,9 @@ exe = EXE(pyz,
           a.scripts,
           a.binaries,
           a.zipfiles,
-          a.datas + [],
+          a.datas + [
+          ('gui/icons/appicon.ico', 'gui/icons/appicon.ico', 'DATA')
+          ],
           [],
           name='Grainmanager',
           debug=False,
@@ -31,5 +33,5 @@ exe = EXE(pyz,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=False,
-          icon='',
+          icon='gui/icons/appicon.ico',
           version='version.rc')

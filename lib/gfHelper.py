@@ -100,9 +100,9 @@ def get_shortforms_of_columns(columns, dictionary):
     return col_list
 
 
-def export_to_excel(data, path):
-    data.to_excel(path)
-
+def export_to_excel(data, path, mode='w', sheet='data'):
+    with pd.ExcelWriter(path, mode=mode) as writer:
+        data.to_excel(writer, sheet_name=sheet)
 
 
 def get_classified_data(x, n_classes=5):

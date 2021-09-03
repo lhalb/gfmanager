@@ -1,7 +1,11 @@
+import numpy as np
+import pandas as pd
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 from gui import save as sv
 from gui import boxes as BOX
+
+from lib import gfHelper as gfh
 
 
 class SaveDialog(QtWidgets.QDialog, sv.Ui_Dialog):
@@ -42,5 +46,26 @@ class SaveDialog(QtWidgets.QDialog, sv.Ui_Dialog):
 
         if not checked_items:
             BOX.show_error_box('Keine Spalten zum Export ausgewählt.')
+        else:
+            out_file = \
+                QtWidgets.QFileDialog.getSaveFileName(self, 'Speicherort wählen', '',
+                                                      'Excel-Files (*.xlsx);;All Files (*)')[0]
+            if not out_file:
+                return
+            data = self.data[checked_items]
+
+            gfh.export_to_excel(data, out_file)
+
+            if self.gb_quantile.isChecked():
+                try:
+                    quantiles = [int(j.strip()) for j in self.txt_quantiles.text().split(',')]
+                    q_data = {k: np.percentile(self.data[k], quantiles) for k in self.data[checked_items].columns}
+                    qf = pd.DataFrame(data=q_data, index=quantiles)
+                    gfh.export_to_excel(qf, out_file, mode='a', sheet='statistics')
+                except ValueError:
+                    BOX.show_error_box('Fehlerhafte Quantile angegeben.')
+                    return
+
+
 
 

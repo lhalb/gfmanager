@@ -142,7 +142,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_3">
+      <widget class="QGroupBox" name="gb_quantile">
        <property name="title">
         <string>Speichere Quantile</string>
        </property>
@@ -151,7 +151,7 @@
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="txt_quantiles">
           <property name="minimumSize">
            <size>
             <width>110</width>

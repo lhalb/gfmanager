@@ -4,6 +4,7 @@ from PyQt5 import QtGui, QtWidgets
 import seaborn as sns
 
 from gui import trimming as tri
+from gui import boxes as BOX
 import matplotlib.image as mpimg
 from math import floor, ceil
 
@@ -50,6 +51,8 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
         self.cb_cols.currentTextChanged.connect(self.update_element)
         self.cb_edgeGrains.clicked.connect(self.update_element)
         self.txt_kalwert.returnPressed.connect(self.update_cal_val)
+        self.lab_cut_min.editingFinished.connect(self.set_min_slider)
+        self.lab_cut_max.editingFinished.connect(self.set_max_slider)
 
     def update_element(self):
         self.update_violin()
@@ -74,7 +77,9 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
     def init_vline(self):
         curr_text = self.cb_cols.currentText()
         min_val = self.trim_data[curr_text].min()
+        max_val = self.trim_data[curr_text].max()
         self.vline = self.data_ax.axvline(min_val, color='r')
+        self.vline_max = self.data_ax.axvline(max_val, color='b')
         self.plt_data.draw_idle()
 
 
@@ -95,6 +100,13 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
 
         sli_min.setMinimum(min_val)
         sli_min.setMaximum(half_min)
+
+        if half_min > 10:
+            ticks = 10
+        else:
+            ticks = half_min - min_val
+        sli_min.setTickInterval(int((half_min-min_val)/ticks))
+        sli_max.setTickInterval(int((max_val-half_min)/ticks))
 
         sli_max.setMinimum(half_max)
         sli_max.setMaximum(max_val)
@@ -176,5 +188,23 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
         self.update_vline()
         self.update_vline_max()
         self.update_scatter_data()
+
+    def set_min_slider(self):
+        try:
+            val = int(self.lab_cut_min.text())
+        except ValueError:
+            BOX.show_error_box('Falscher Wert eingegeben.')
+            return
+        self.sliderTRIM_min.setValue(val)
+        self.update_data()
+
+    def set_max_slider(self):
+        try:
+            val = int(self.lab_cut_max.text())
+        except ValueError:
+            BOX.show_error_box('Falscher Wert eingegeben.')
+            return
+        self.sliderTRIM_max.setValue(val)
+        self.update_data()
 
 
