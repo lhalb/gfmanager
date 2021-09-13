@@ -6,6 +6,7 @@ from gui.trimGui import TrimDialog as TD
 from gui.plotUI import PlotDialog as PD
 from gui.exportGUI import SaveDialog as SD
 from gui import boxes as BOX
+import json
 
 
 class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
@@ -104,6 +105,8 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
 
         if not short_cols:
             short_cols = self.get_short_cols(path)
+            if not short_cols:
+                return
 
         try:
             data = gfh.read_text(path, cols=short_cols)
@@ -134,6 +137,7 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         self.but_trim.setEnabled(False)
         self.but_save_data.setEnabled(False)
         self.check_data()
+        BOX.show_info_box('Alle Daten entfernt.')
 
     def check_data(self):
         on_icon = QtGui.QIcon(":/img/icons/green_light.png")
@@ -165,17 +169,23 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
     
     def get_short_cols(self, path, col_dict=None):
         if not self.test_path(path):
-            return
-
-        head = gfh.get_header(path)
-        coldata = gfh.parse_header(head)
+            return False
+        try:
+            head = gfh.get_header(path)
+            coldata = gfh.parse_header(head)
+        except ValueError as VE:
+            err_code = VE.args[0]
+            BOX.show_error_box(f'Es gab einen Zuordnungsfehler.\nDer Zeileninhalt lautet:\n{err_code}\nImport abgebrochen.')
+            return False
 
         if not col_dict:
             col_dict = self.data.col_dict
         return gfh.get_shortforms_of_columns(coldata[1], col_dict)
 
+
     def open_export_dialog(self):
         data = self.get_data()
-        sd = SD(data)
+        col_dict = self.data.col_dict
+        sd = SD(data, col_dict)
         sd.exec_()
 

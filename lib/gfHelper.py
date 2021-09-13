@@ -35,7 +35,10 @@ def parse_header(hlines, p_mode='columns'):
         col_names = []
         for c in cols:
             # Lese die Spalten ein
-            col_string, col_name = c.split(':')
+            try:
+                col_string, col_name = c.split(':')
+            except ValueError:
+                raise ValueError(c)
             # entferne Leerzeichen und Steuerzeichen wie Zeilenumbrüche
             col_name = col_name.strip()
 

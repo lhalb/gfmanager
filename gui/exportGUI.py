@@ -7,13 +7,14 @@ from gui import boxes as BOX
 
 from lib import gfHelper as gfh
 
+
 class SaveDialog(QtWidgets.QDialog, sv.Ui_Dialog):
-    def __init__(self, data, class_mode=''):
+    def __init__(self, data, col_dict=None):
         super(SaveDialog, self).__init__()
         self.setupUi(self)
         self.data = data
+        self.col_dict = col_dict
         self.create_cols()
-
         self.setup_triggers()
 
     def setup_triggers(self):
@@ -24,13 +25,17 @@ class SaveDialog(QtWidgets.QDialog, sv.Ui_Dialog):
     def create_cols(self):
         cols = list(self.data.columns)
         cols.sort()
-        for col in cols:
+        for i, col in enumerate(cols):
             item = QtWidgets.QListWidgetItem()
             item.setText(col)
             item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
             item.setCheckState(QtCore.Qt.Checked)
             self.listWidget.addItem(item)
-
+            try:
+                long_version = list(self.col_dict.keys())[list(self.col_dict.values()).index(col)]
+            except ValueError:
+                long_version = ''
+            self.listWidget.item(i).setToolTip(long_version)
 
     def select_items(self, all=False):
         if all:
@@ -67,7 +72,3 @@ class SaveDialog(QtWidgets.QDialog, sv.Ui_Dialog):
                 except ValueError:
                     BOX.show_error_box('Fehlerhafte Quantile angegeben.')
                     return
-
-
-
-

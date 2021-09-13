@@ -14,7 +14,7 @@ class PlotDialog(QtWidgets.QDialog, pg.Ui_Dialog):
         self.data = data
 
         # Setze icon
-        icon = QtGui.QIcon(":/img/icons/plot.png")
+        icon = QtGui.QIcon(":/img/icons/chart.png")
         self.setWindowIcon(icon)
 
         # Fill Combo-Box
