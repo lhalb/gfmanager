@@ -23,7 +23,7 @@
     <item>
      <widget class="QPushButton" name="but_fopen">
       <property name="toolTip">
-       <string>Textdatei laden</string>
+       <string>Textdatei laden (STRG + O)</string>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
@@ -68,7 +68,10 @@
       <item>
        <widget class="QPushButton" name="info_load">
         <property name="toolTip">
-         <string>Info</string>
+         <string>Info (STRG + I)</string>
+        </property>
+        <property name="toolTipDuration">
+         <number>-1</number>
         </property>
         <property name="text">
          <string/>
@@ -111,7 +114,7 @@
          <bool>false</bool>
         </property>
         <property name="toolTip">
-         <string>Info</string>
+         <string>Lösche Daten (STRG + ALT + D)</string>
         </property>
         <property name="text">
          <string/>
@@ -145,7 +148,7 @@
          <bool>false</bool>
         </property>
         <property name="toolTip">
-         <string>Öffne den Dialog zum Beschneiden der Daten</string>
+         <string>Öffne den Dialog zum Beschneiden der Daten (STRG + T)</string>
         </property>
         <property name="text">
          <string/>
@@ -172,7 +175,7 @@
          <bool>false</bool>
         </property>
         <property name="toolTip">
-         <string>Öffne den Dialog zum plotten der Daten</string>
+         <string>Öffne den Dialog zum plotten der Daten (STRG + P)</string>
         </property>
         <property name="text">
          <string/>
@@ -201,7 +204,7 @@
        <bool>false</bool>
       </property>
       <property name="toolTip">
-       <string>Daten exportieren</string>
+       <string>Daten exportieren (STRG + E)</string>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>

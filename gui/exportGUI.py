@@ -7,7 +7,6 @@ from gui import boxes as BOX
 
 from lib import gfHelper as gfh
 
-
 class SaveDialog(QtWidgets.QDialog, sv.Ui_Dialog):
     def __init__(self, data, class_mode=''):
         super(SaveDialog, self).__init__()
@@ -23,12 +22,15 @@ class SaveDialog(QtWidgets.QDialog, sv.Ui_Dialog):
         self.but_select_none.clicked.connect(lambda: self.select_items(False))
 
     def create_cols(self):
-        for col in self.data.columns:
+        cols = list(self.data.columns)
+        cols.sort()
+        for col in cols:
             item = QtWidgets.QListWidgetItem()
             item.setText(col)
             item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
             item.setCheckState(QtCore.Qt.Checked)
             self.listWidget.addItem(item)
+
 
     def select_items(self, all=False):
         if all:

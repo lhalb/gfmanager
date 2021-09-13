@@ -37,6 +37,7 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.info_load = QtWidgets.QPushButton(self.centralwidget)
+        self.info_load.setToolTipDuration(-1)
         self.info_load.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/img/icons/red_light.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
@@ -104,17 +105,17 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Grainfile Manager"))
-        self.but_fopen.setToolTip(_translate("MainWindow", "Textdatei laden"))
+        self.but_fopen.setToolTip(_translate("MainWindow", "Textdatei laden (STRG + O)"))
         self.but_fopen.setShortcut(_translate("MainWindow", "Ctrl+O"))
-        self.info_load.setToolTip(_translate("MainWindow", "Info"))
+        self.info_load.setToolTip(_translate("MainWindow", "Info (STRG + I)"))
         self.info_load.setShortcut(_translate("MainWindow", "Ctrl+I"))
-        self.but_delete_data.setToolTip(_translate("MainWindow", "Info"))
+        self.but_delete_data.setToolTip(_translate("MainWindow", "Lösche Daten (STRG + ALT + D)"))
         self.but_delete_data.setShortcut(_translate("MainWindow", "Ctrl+Alt+D"))
-        self.but_trim.setToolTip(_translate("MainWindow", "Öffne den Dialog zum Beschneiden der Daten"))
+        self.but_trim.setToolTip(_translate("MainWindow", "Öffne den Dialog zum Beschneiden der Daten (STRG + T)"))
         self.but_trim.setShortcut(_translate("MainWindow", "Ctrl+T"))
-        self.but_plot.setToolTip(_translate("MainWindow", "Öffne den Dialog zum plotten der Daten"))
+        self.but_plot.setToolTip(_translate("MainWindow", "Öffne den Dialog zum plotten der Daten (STRG + P)"))
         self.but_plot.setShortcut(_translate("MainWindow", "Ctrl+P"))
-        self.but_save_data.setToolTip(_translate("MainWindow", "Daten exportieren"))
+        self.but_save_data.setToolTip(_translate("MainWindow", "Daten exportieren (STRG + E)"))
         self.but_save_data.setShortcut(_translate("MainWindow", "Ctrl+E"))
 import icons_rc
 

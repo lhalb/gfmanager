@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(458, 680)
+        Dialog.resize(756, 1244)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.splitter = QtWidgets.QSplitter(Dialog)
@@ -71,7 +71,7 @@ class Ui_Dialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.imagePlot.sizePolicy().hasHeightForWidth())
         self.imagePlot.setSizePolicy(sizePolicy)
-        self.imagePlot.setMinimumSize(QtCore.QSize(0, 200))
+        self.imagePlot.setMinimumSize(QtCore.QSize(0, 700))
         self.imagePlot.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.imagePlot.setObjectName("imagePlot")
         self.verticalLayout.addWidget(self.imagePlot)

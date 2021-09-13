@@ -171,6 +171,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.label_6.setText(_translate("Dialog", "Welche Daten?"))
+        self.but_replot.setToolTip(_translate("Dialog", "Replot"))
         self.cb_cumulated.setText(_translate("Dialog", "Zeige kumulierte Häufigkeit"))
         self.label_3.setText(_translate("Dialog", "Klassierung nach"))
         self.cb_classification.setItemText(0, _translate("Dialog", "Freedman–Diaconis"))
