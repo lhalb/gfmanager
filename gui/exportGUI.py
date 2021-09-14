@@ -59,10 +59,13 @@ class SaveDialog(QtWidgets.QDialog, sv.Ui_Dialog):
                                                       'Excel-Files (*.xlsx);;All Files (*)')[0]
             if not out_file:
                 return
+            # Setze Daten auf ausgewählte Spalten
             data = self.data[checked_items]
 
+            # Exportiere Daten in Excel
             gfh.export_to_excel(data, out_file)
 
+            # Falls Quantile exportiert werden sollen
             if self.gb_quantile.isChecked():
                 try:
                     quantiles = [int(j.strip()) for j in self.txt_quantiles.text().split(',')]
@@ -72,3 +75,30 @@ class SaveDialog(QtWidgets.QDialog, sv.Ui_Dialog):
                 except ValueError:
                     BOX.show_error_box('Fehlerhafte Quantile angegeben.')
                     return
+
+            if self.gb_class.isChecked():
+                # exportiere klassierte Daten
+                txt = str(self.cb_classification.currentText())
+
+                datas = {}
+                for col in data.columns:
+                    cls = gfh.get_number_of_classes(data[col], txt)
+                    if cls == 0:
+                        continue
+                    else:
+                        val = pd.cut(data[col], cls, retbins=True, include_lowest=True)
+
+                        name_counts = val[0].name + '_counts'
+                        name_bins = name_counts + '_bins'
+
+                        bins = val[1]
+                        counts = val[0].value_counts().values
+
+                        datas[name_bins] = bins
+                        datas[name_counts] = counts
+
+                bd = pd.DataFrame({key: pd.Series(value) for key, value in datas.items()})
+
+                gfh.export_to_excel(bd, out_file, mode='a', sheet='classes')
+
+            BOX.show_info_box('Daten erfolgreich exportiert.')

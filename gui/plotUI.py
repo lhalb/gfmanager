@@ -42,8 +42,8 @@ class PlotDialog(QtWidgets.QDialog, pg.Ui_Dialog):
 
         if self.tabWidget.currentIndex() == 0:
             if current_text != 'ASTM':
-                class_mode = self.get_class_mode()
-                classes = get_number_of_classes(calc_data, mode=class_mode)
+                txt = str(self.cb_classification.currentText())
+                classes = get_number_of_classes(calc_data, mode=txt)
             else:
                 classes = ceil(calc_data.max())
 
@@ -69,19 +69,3 @@ class PlotDialog(QtWidgets.QDialog, pg.Ui_Dialog):
         sns.violinplot(x=data, ax=self.data_ax, cut=cut, bw=bw)
         self.plt_data.fig.tight_layout()
         self.plt_data.draw_idle()
-
-    def get_class_mode(self):
-        txt = str(self.cb_classification.currentText())
-        if txt == 'Freedman–Diaconis':
-            mode = 'fd'
-        elif txt == 'Rice':
-            mode = 'rice'
-        elif txt == 'Square-Root':
-            mode = 'sr'
-        elif txt == 'Sturges':
-            mode = 'sturges'
-        else:
-            BOX.show_error_box('Falscher Test ausgewählt')
-            return False
-
-        return mode

@@ -6,7 +6,6 @@ from gui.trimGui import TrimDialog as TD
 from gui.plotUI import PlotDialog as PD
 from gui.exportGUI import SaveDialog as SD
 from gui import boxes as BOX
-import json
 
 
 class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
@@ -64,13 +63,15 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
     def open_plot_dialog(self):
         all_data = self.get_data()
         plot_data = all_data[['area', 'dia', 'pos-x', 'pos-y', 'edge', 'ASTM']]
+        if len(plot_data) < 2:
+            BOX.show_error_box('Der Datensatz enthält zu wenig Datenpunkte.\nPlotten nicht möglich.')
+            return
         pd = PD(plot_data)
         ret_val = pd.exec_()
         if ret_val:
             self.class_option = pd.cb_classification.currentText()
         else:
             return
-
 
     def file_open(self):
         fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Wähle eine Quelldatei', filter='*.txt')[0]
@@ -96,7 +97,6 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
 
         self.load_data(fname)
 
-    
     def load_data(self, path=None, short_cols=None):
         try:
             path = self.test_path(path)
@@ -181,7 +181,6 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
         if not col_dict:
             col_dict = self.data.col_dict
         return gfh.get_shortforms_of_columns(coldata[1], col_dict)
-
 
     def open_export_dialog(self):
         data = self.get_data()

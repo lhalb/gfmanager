@@ -122,18 +122,20 @@ def get_classified_data(x, n_classes=5):
 
 def get_number_of_classes(data, mode):
     n = len(data)
-    if mode == 'sr':
+    if mode == 'Square-Root':
         classes = int(math.sqrt(n))
-    elif mode == 'rice':
+    elif mode == 'Rice':
         classes = int(2*(n**(1/3)))
-    elif mode == 'sturges':
+    elif mode == 'Sturges':
         classes = int(math.log(n, 2) + 1)
-    elif mode == 'fd':
-        iqr = stats.iqr(data, interpolation = 'midpoint')
+    elif mode == 'Freedman–Diaconis':
+        iqr = stats.iqr(data, interpolation='midpoint')
         classes = int(2*iqr/(n**(1/3)))
     else:
         raise NotImplementedError
 
+    if classes == 0:
+        classes = math.floor(max(data))
     return classes
 
 
