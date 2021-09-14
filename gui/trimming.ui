@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>756</width>
-    <height>1244</height>
+    <height>1119</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -216,6 +216,9 @@
      </property>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="spacing">
+        <number>1</number>
+       </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -309,12 +312,18 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QLabel" name="lab_min">
+          <widget class="QPushButton" name="but_cut_min">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
            </property>
            <property name="maximumSize">
             <size>
@@ -322,13 +331,30 @@
              <height>40</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Nur Untere Grenze festlegen</string>
+           </property>
            <property name="text">
             <string/>
            </property>
-           <property name="pixmap">
-            <pixmap resource="icons.qrc">:/img/icons/min.png</pixmap>
+           <property name="icon">
+            <iconset>
+             <normalon>:/img/icons/min.png</normalon>
+            </iconset>
            </property>
-           <property name="scaledContents">
+           <property name="iconSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+           <property name="flat">
             <bool>true</bool>
            </property>
           </widget>
@@ -358,6 +384,9 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>1</number>
+       </property>
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -494,11 +523,23 @@
              <height>30</height>
             </size>
            </property>
+           <property name="minimum">
+            <number>0</number>
+           </property>
+           <property name="maximum">
+            <number>99</number>
+           </property>
            <property name="sliderPosition">
             <number>99</number>
            </property>
+           <property name="tracking">
+            <bool>true</bool>
+           </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
            </property>
            <property name="invertedControls">
             <bool>false</bool>
@@ -509,12 +550,18 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="lab_max">
+          <widget class="QPushButton" name="but_cut_max">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>40</height>
+            </size>
            </property>
            <property name="maximumSize">
             <size>
@@ -522,13 +569,27 @@
              <height>40</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Nur obere Grenze festlegen</string>
+           </property>
            <property name="text">
             <string/>
            </property>
-           <property name="pixmap">
-            <pixmap resource="icons.qrc">:/img/icons/max.png</pixmap>
+           <property name="icon">
+            <iconset>
+             <normalon>:/img/icons/max.png</normalon>
+            </iconset>
            </property>
-           <property name="scaledContents">
+           <property name="iconSize">
+            <size>
+             <width>35</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="flat">
             <bool>true</bool>
            </property>
           </widget>
@@ -541,6 +602,9 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="bBox">
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>

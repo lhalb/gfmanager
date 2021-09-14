@@ -53,11 +53,15 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
         self.txt_kalwert.returnPressed.connect(self.update_cal_val)
         self.lab_cut_min.editingFinished.connect(self.set_min_slider)
         self.lab_cut_max.editingFinished.connect(self.set_max_slider)
+        self.but_cut_min.clicked.connect(self.manipulate_max)
+        self.but_cut_max.clicked.connect(self.manipulate_min)
 
     def update_element(self):
         self.update_violin()
         self.init_vline()
-        self.init_slider()
+        bool_max = self.but_cut_min.isChecked()
+        bool_min = self.but_cut_max.isChecked()
+        self.init_slider(h_max=bool_max, h_min=bool_min)
         self.update_scatter_data()
 
     def update_violin(self):
@@ -82,8 +86,7 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
         self.vline_max = self.data_ax.axvline(max_val, color='b')
         self.plt_data.draw_idle()
 
-
-    def init_slider(self):
+    def init_slider(self, h_min=False, h_max=False):
         sli_min = self.sliderTRIM_min
         sli_max = self.sliderTRIM_max
 
@@ -95,18 +98,27 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
         min_val = floor(data[curr_text].min())
 
         max_val = ceil(data[curr_text].max())
-        half_min = floor((max_val-min_val)/2)
-        half_max = ceil((max_val-min_val)/2)
+        # Wenn die Mitte am Beginn der Daten liegen soll (nur Max-Slider aktiv)
+        if h_min and not h_max:
+            half_min = min_val
+        # Wenn die Mitte am Ende der Daten liegen soll (nur Min-Slider aktiv)
+        elif h_max and not h_min:
+            half_min = max_val
+        else:
+            half_min = floor((max_val-min_val)/2)
+
+        half_max = half_min + 1
 
         sli_min.setMinimum(min_val)
         sli_min.setMaximum(half_min)
 
-        if half_min > 10:
-            ticks = 10
-        else:
-            ticks = half_min - min_val
-        sli_min.setTickInterval(int((half_min-min_val)/ticks))
-        sli_max.setTickInterval(int((max_val-half_min)/ticks))
+        if half_min != min_val and half_max != max_val:
+            if half_min > 10:
+                ticks = 10
+            else:
+                ticks = half_min - min_val
+            sli_min.setTickInterval(int((half_min-min_val)/ticks))
+            sli_max.setTickInterval(int((max_val-half_min)/ticks))
 
         sli_max.setMinimum(half_max)
         sli_max.setMaximum(max_val)
@@ -207,4 +219,26 @@ class TrimDialog(QtWidgets.QDialog, tri.Ui_Dialog):
         self.sliderTRIM_max.setValue(val)
         self.update_data()
 
+    def manipulate_max(self):
+        if self.but_cut_min.isChecked():
+            self.sliderTRIM_max.hide()
+            self.lab_cut_max.hide()
+            self.but_cut_max.hide()
+            self.init_slider(h_max=True)
+        else:
+            self.sliderTRIM_max.show()
+            self.lab_cut_max.show()
+            self.but_cut_min.show()
+            self.init_slider()
 
+    def manipulate_min(self):
+        if self.but_cut_max.isChecked():
+            self.sliderTRIM_min.hide()
+            self.lab_cut_min.hide()
+            self.but_cut_min.hide()
+            self.init_slider(h_min=True)
+        else:
+            self.sliderTRIM_min.show()
+            self.lab_cut_min.show()
+            self.but_cut_min.show()
+            self.init_slider()
