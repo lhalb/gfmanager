@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>349</width>
-    <height>310</height>
+    <width>362</width>
+    <height>324</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -97,9 +97,15 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QGroupBox" name="groupBox_2">
+      <widget class="QGroupBox" name="gb_class">
+       <property name="toolTip">
+        <string>Abwählen, um Ausgabe der klassierten Daten zu unterdrücken</string>
+       </property>
        <property name="title">
         <string>Klassierungsalgorithmus</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
@@ -143,6 +149,9 @@
      </item>
      <item>
       <widget class="QGroupBox" name="gb_quantile">
+       <property name="toolTip">
+        <string>Abwählen, um Ausgabe der Quantile zu unterdrücken</string>
+       </property>
        <property name="title">
         <string>Speichere Quantile</string>
        </property>
@@ -157,6 +166,9 @@
             <width>110</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="toolTip">
+           <string>Auszugebende Quantile in Prozent; getrennt durch &quot;,&quot;</string>
           </property>
           <property name="text">
            <string>10, 25, 50, 75, 90</string>
@@ -199,6 +211,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="but_fout">
+         <property name="toolTip">
+          <string>.XLSX-Datei exportieren</string>
+         </property>
          <property name="text">
           <string/>
          </property>
