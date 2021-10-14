@@ -24,7 +24,8 @@ class DataBase:
             'Grain circularity': 'circul',
             'Maximmum Feret diameter': 'maxFeret',
             'Minimum Feret diameter': 'minFeret',
-            'Average orientation spread in grain (average misorientation of all point pairs)': 'avOrSpread'
+            'Average orientation spread in grain (average misorientation of all point pairs)': 'avOrSpread',
+            'Average misorientation in grain (average misorientation of neighboring point pairs)': 'avMisOr'
         }
         self.outdata = None
 

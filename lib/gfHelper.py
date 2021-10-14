@@ -12,7 +12,7 @@ def read_text(path, cols=None):
     :param path: Pfad zur Textdatei
     :return: Dataframe mit Spalten
     """
-    df = pd.read_csv(path, sep="\s+", comment='#',names=cols, header=None)
+    df = pd.read_csv(path, sep="\s+", comment='#', names=cols, header=None)
 
     return df
 
@@ -73,7 +73,6 @@ def parse_header(hlines, p_mode='columns'):
                 else:
                     col_names.append(col_name)
 
-
         retvals = [nr, col_names]
 
     return retvals
@@ -82,23 +81,37 @@ def parse_header(hlines, p_mode='columns'):
 def get_shortforms_of_columns(columns, dictionary):
     col_list = []
     for c in columns:
+        found = False
         for k in dictionary.keys():
             if k.find(c) != -1:
                 col_list.append(dictionary[k])
+                found = True
 
             elif 'Average orientation (phi1, PHI, phi2)' in c and \
                     'Average orientation (phi1, PHI, phi2)' in k:
                 if 'degrees' in c and 'degrees' in k:
                     unit = c.split('|')[1].strip()
                     col_list.append(f'{dictionary[k]}-{unit}')
+                    found = True
 
                 if 'radians' in c and 'radians' in k:
                     unit = c.split('|')[1].strip()
                     col_list.append(f'{dictionary[k]}-{unit}')
+                    found = True
 
             elif 'Average Position' in c and 'Average Position' in k:
                 unit = c.split('|')[1].strip()
                 col_list.append(f'{dictionary[k]}-{unit}')
+                found = True
+
+        if not found:
+            # Falls der String gar nicht im Dictionary ist, kreiere einen Kurzstring
+            if '(' in c:
+                first_string = c.split('(')[0]
+            else:
+                first_string = c
+            short_name = ''.join([w[:2] for w in first_string.split()])
+            col_list.append(short_name)
 
     return col_list
 

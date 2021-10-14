@@ -6,6 +6,8 @@ from lib import gfHelper as gfh
 from gui.trimGui import TrimDialog as TD
 
 
+
+
 class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
     def __init__(self):
         super(App, self).__init__()
@@ -107,17 +109,19 @@ class App(QtWidgets.QMainWindow, GUI.Ui_MainWindow):
             data = gfh.read_text(path, cols=short_cols)
         except FileNotFoundError:
             self.show_error_box('Datei nicht gefunden')
+        except IndexError:
+
             return
 
         self.data.write_to_df(data)
 
-        additems = [i for i in data.columns if i not in ['pos-x', 'pos-y', 'edge']]
-        self.cb_plotchoice.addItems(additems)
-
-        combo = self.cb_plotchoice
-        index = combo.findText('area', QtCore.Qt.MatchFixedString)
-        if index >= 0:
-            combo.setCurrentIndex(index)
+        # additems = [i for i in data.columns if i not in ['pos-x', 'pos-y', 'edge']]
+        # self.cb_plotchoice.addItems(additems)
+        #
+        # combo = self.cb_plotchoice
+        # index = combo.findText('area', QtCore.Qt.MatchFixedString)
+        # if index >= 0:
+        #     combo.setCurrentIndex(index)
 
         self.show_info_box('Daten erfolgreich geladen')
 
